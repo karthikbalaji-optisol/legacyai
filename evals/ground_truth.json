@@ -1,0 +1,68 @@
+{
+  "dataset": "LegacyOrders_v1",
+  "total_csharp_files": 6,
+  "expected_rules": [
+    {
+      "id": "RULE-001",
+      "name": "VIP Customer Tier Discount",
+      "threshold": ">= 500.00m",
+      "file": "Services/DiscountRuleEngine.cs"
+    },
+    {
+      "id": "RULE-002",
+      "name": "Bulk Order Volume Discount",
+      "threshold": "> 50",
+      "file": "Services/DiscountRuleEngine.cs"
+    },
+    {
+      "id": "RULE-003",
+      "name": "Promotional Code Validation",
+      "threshold": "HOLIDAY2024",
+      "file": "Services/DiscountRuleEngine.cs"
+    },
+    {
+      "id": "RULE-004",
+      "name": "Maximum Discount Safety Cap",
+      "threshold": "0.25m",
+      "file": "Services/DiscountRuleEngine.cs"
+    },
+    {
+      "id": "RULE-005",
+      "name": "High-Value Secondary Fraud Review",
+      "threshold": "> 10000.00m",
+      "file": "Services/PaymentGatewayService.cs"
+    },
+    {
+      "id": "RULE-006",
+      "name": "Inventory Availability Check",
+      "threshold": "< item.Quantity",
+      "file": "Services/OrderProcessingService.cs"
+    },
+    {
+      "id": "RULE-007",
+      "name": "Minimum Order Total Requirement",
+      "threshold": "< MinimumOrderAmount",
+      "file": "Services/OrderProcessingService.cs"
+    },
+    {
+      "id": "RULE-008",
+      "name": "Credit Limit Enforcement",
+      "threshold": "> customer.CreditLimit",
+      "file": "Services/OrderProcessingService.cs"
+    },
+    {
+      "id": "RULE-009",
+      "name": "Cancellation Role Authorization",
+      "threshold": "> 5000.00m",
+      "file": "Services/OrderProcessingService.cs"
+    }
+  ],
+  "expected_roles": [
+    "SalesAgent",
+    "Manager"
+  ],
+  "expected_routes": [
+    "api/v1/orders",
+    "{id}/cancel"
+  ]
+}

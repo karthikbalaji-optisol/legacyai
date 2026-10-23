@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  legacylens:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: legacylens-ai
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=postgresql+asyncpg://legacylens:legacylens_pw@postgres:5432/legacylens_db
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - BEDROCK_MODEL_ID=${BEDROCK_MODEL_ID:-anthropic.claude-3-sonnet-20240229-v1:0}
+    volumes:
+      - app-storage:/app/backend/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: legacylens-postgres
+    environment:
+      POSTGRES_USER: legacylens
+      POSTGRES_PASSWORD: legacylens_pw
+      POSTGRES_DB: legacylens_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legacylens -d legacylens_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  app-storage:
+  pg-data:

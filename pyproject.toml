@@ -1,0 +1,30 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",   # Line length (prompts and SQL expressions)
+    "B008",   # FastAPI Depends() in parameter defaults
+    "BLE001", # Blind exception catch in error handling
+    "F841",   # Unused variable
+    "UP006",  # Typing List vs list
+    "UP035",  # Typing Dict vs dict
+    "UP007",  # X | None vs Optional
+    "UP042",  # StrEnum
+    "UP045",  # Optional vs X | None
+]
+
+[tool.mypy]
+python_version = "3.12"
+explicit_package_bases = true
+ignore_missing_imports = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+testpaths = ["tests"]
+pythonpath = ["."]
